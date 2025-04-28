@@ -4,3 +4,4 @@ vader_lexicon
 stopwords
 punkt
 wordnet
+punkt_tab
