@@ -3,8 +3,8 @@ from nltk.corpus import subjectivity
 from nltk.sentiment import SentimentAnalyzer, SentimentIntensityAnalyzer
 from nltk.sentiment.util import *
 
-
 def train_model():
+    nltk.download('popular')
     n_instances = 100
     subj_docs = [(sent, 'subj') for sent in subjectivity.sents(categories="subj")[:n_instances]]
     obj_docs = [(sent, 'obj') for sent in subjectivity.sents(categories="obj")[:n_instances]]
