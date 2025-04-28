@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analysis - Sentiment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            min-width: 600px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .result table {
+            margin-bottom: 10px;
+            width: 50%;
+        }
+
+        .positive {
+            color: green;
+        }
+
+        .negative {
+            color: red;
+        }
+
+        .neutral {
+            color: gray;
+        }
+
+        hr {
+            width: 50%
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Text Analysis - Sentiment</h1>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="text" placeholder="Enter your text here..."></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+    {% if result %}
+        <div class="result">
+            <p>Result from server:</p>
+            {% for text, analysis in result %}
+                <table>
+                    <caption><h3>Sentence: {{ text }}</h3></caption>
+                    <thead>
+                    <tr>
+                        <th>Negative</th>
+                        <th>Neutral</th>
+                        <th>Positive</th>
+                        <th>Compound</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ analysis.neg }}</td>
+                        <td>{{ analysis.neu }}</td>
+                        <td>{{ analysis.pos }}</td>
+                        <td>{{ analysis.compound }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {% if analysis.compound >= 0.05 %}
+                    <span class="positive">Sentiment: Positive</span>
+                {% elif analysis.compound <= -0.05 %}
+                    <span class="negative">Sentiment: Negative</span>
+                {% else %}
+                    <span class="neutral">Sentiment: Neutral</span>
+                {% endif %}
+                <hr/>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
