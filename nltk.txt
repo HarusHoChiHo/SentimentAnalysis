@@ -1,1 +1,6 @@
-all
+subjectivity
+sentence_polarity
+vader_lexicon
+stopwords
+punkt
+wordnet
